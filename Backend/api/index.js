@@ -6,6 +6,7 @@ const { config } = require('./config/index');
 
 //Required routes
 const authApi = require('./routes/auth');
+const usersApi = require('./routes/users');
 
 //Middleware
 const {
@@ -20,6 +21,7 @@ app.use(express.json());
 
 //Routes
 authApi(app);
+usersApi(app);
 
 //Catch 404
 app.use(notFoundHandler);

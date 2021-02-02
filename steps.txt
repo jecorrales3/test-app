@@ -18,6 +18,7 @@ npm i -D chalk
 ------------------------------------------------------------
                             ssr-server
 ------------------------------------------------------------
+npm init -y
 npm i express express-session dotenv
 npm i -D nodemon
 npm i passport passport-http

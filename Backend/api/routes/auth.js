@@ -17,7 +17,7 @@ const validationHandler = require('../utils/middleware/validationHandler');
 const { config } = require('../config');
 
 //Basic strategy
-require('../utils/strategies/basic');
+require('../utils/auth/strategies/basic');
 
 function authApi(app) {
   const router = express.Router();
@@ -62,7 +62,7 @@ function authApi(app) {
           };
 
           const token = jwt.sign(payload, config.authJwtSecret, {
-            expiresIn: '15m',
+            expiresIn: '1m',
           });
 
           return res.status(200).json({
@@ -87,12 +87,20 @@ function authApi(app) {
       const { body: user } = req;
 
       try {
-        const createdUserId = await usersService.createUser({ user });
+        const userId = await usersService.getUserEmail({ email: user.email });
 
-        res.status(201).json({
-          data: createdUserId,
-          message: 'User created',
-        });
+        if (userId) {
+          res.status(200).json({
+            message: `Email is invalid or already taken`,
+          });
+        } else {
+          const createdUserId = await usersService.createUser({ user });
+
+          res.status(201).json({
+            data: createdUserId,
+            message: 'User created',
+          });
+        }
       } catch (error) {
         next(error);
       }

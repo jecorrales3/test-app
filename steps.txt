@@ -1,0 +1,27 @@
+npm init -y
+crear .eslintrc.json
+crear -prettierrc.json
+npm i express dotenv
+npm i -D nodemon eslint eslint-config-prettier eslint-plugin-prettier prettier
+npx mrm lint-staged
+crear el archivo .gitignore (node, windows, macOS, linux)<gitignore.io>
+npm i mongodb
+npm i @hapi/boom
+npm i @hapi/joi
+npm i -D mocha supertest sinon proxyquire
+npm i bcrypt
+npm i passport jsonwebtoken passport-http passport-jwt
+npm i -D chalk
+--> keygen.io = random key generators --> WEP 256-bit Key
+--> jwt.io = jsonwebtoken
+
+------------------------------------------------------------
+                            ssr-server
+------------------------------------------------------------
+npm i express express-session dotenv
+npm i -D nodemon
+npm i passport passport-http
+npm i @hapi/boom
+npm i axios
+npm i cookie-parser
+npm i lodash

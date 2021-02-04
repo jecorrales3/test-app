@@ -36,12 +36,12 @@ function authApi(app) {
     passport.authenticate('basic', function (error, user) {
       try {
         if (error || !user) {
-          next(boom.unauthorized());
+          return next(boom.unauthorized());
         }
 
         req.login(user, { session: false }, async function (error) {
           if (error) {
-            next(error);
+            return next(error);
           }
 
           const apiKey = await apikeysService.getApiKey({
@@ -49,7 +49,7 @@ function authApi(app) {
           });
 
           if (!apiKey) {
-            next(boom.unauthorized());
+            return next(boom.unauthorized());
           }
 
           const { _id: id, name, email } = user;
@@ -106,6 +106,40 @@ function authApi(app) {
       }
     }
   );
+
+  router.get('/logged', async function (req, res, next) {
+    try {
+      const authHeader = req.headers.authorization;
+      const token = authHeader.split(' ')[1];
+
+      if (token != 'undefined') {
+        jwt.verify(token, config.authJwtSecret, (err, user) => {
+          if (err) {
+            return res.status(200).json({
+              isLoggedIn: false,
+            });
+          }
+
+          const { sub: id, name, email } = user;
+
+          return res.status(200).json({
+            isLoggedIn: true,
+            user: {
+              id,
+              name,
+              email,
+            },
+          });
+        });
+      } else {
+        res.status(200).json({
+          isLoggedIn: false,
+        });
+      }
+    } catch (error) {
+      next(error);
+    }
+  });
 }
 
 module.exports = authApi;

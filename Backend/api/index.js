@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 
 //Settings
 const { config } = require('./config/index');
@@ -18,6 +19,15 @@ const notFoundHandler = require('./utils/middleware/notFoundHandler');
 
 //Body parser
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// CORS
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 //Routes
 authApi(app);

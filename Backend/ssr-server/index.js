@@ -1,10 +1,22 @@
 const express = require('express');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
 
 //Settings
 const { config } = require('./config');
 const app = express();
+
+//Body parser
+app.use(express.json());
+app.use(cookieParser());
+
+// CORS
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 //Required routes
 const authApi = require('./routes/authApi');
@@ -18,10 +30,6 @@ const {
 } = require('./utils/middleware/errorHandlers.js');
 
 const notFoundHandler = require('./utils/middleware/notFoundHandler.js');
-
-//Body parser
-app.use(express.json());
-app.use(cookieParser());
 
 //Routes
 authApi(app);

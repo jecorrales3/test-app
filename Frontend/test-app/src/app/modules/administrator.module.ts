@@ -8,13 +8,11 @@ import { AdministratorRoutes } from './administrator.routing';
 
 //Components
 import { UsersComponent } from '../components/users/users.component';
-import { ProfileComponent } from '../components/profile/profile.component';
 
 @NgModule({
   declarations: [
     //Components
     UsersComponent,
-    ProfileComponent,
   ],
   imports: [
     CommonModule,

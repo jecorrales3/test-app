@@ -1,0 +1,35 @@
+.interactive-bg {
+  height: 100vh;
+  background-color: #00d1b2;
+}
+
+@media (max-width: 769px) {
+  .interactive-bg {
+    display: none;
+  }
+}
+
+.input {
+  background-color: #f4f8f7;
+}
+
+.input::placeholder,
+.select select::placeholder,
+.textarea::placeholder {
+  color: #757575;
+}
+
+.button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  min-width: 220px;
+}
+
+.button-link {
+  background-color: transparent;
+  color: #fff;
+}
+
+.columns {
+  margin: 0px;
+}

@@ -1,15 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  CommonModule,
-  LocationStrategy,
-  PathLocationStrategy
-} from '@angular/common';
+import { CommonModule, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
+
+//External packages
+import { CookieService } from 'ngx-cookie-service';
+
+//Interceptors
+import { HttpRequestInterceptor } from './interceptors/http-request-interceptor';
 
 //Layouts
 import { AuthenticationComponent } from './layouts/authentication/authentication.component';
@@ -17,13 +19,16 @@ import { AdministratorComponent } from './layouts/administrator/administrator.co
 
 //Shared
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 //Components
 import { ErrorComponent } from './components/error/error.component';
 
 //Settings
 import { routes } from './app-routing.module';
+
+//Toastr
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -33,9 +38,9 @@ import { routes } from './app-routing.module';
     AdministratorComponent,
     //Shared
     ToolbarComponent,
-    SidebarComponent,
     //Components
     ErrorComponent,
+    FooterComponent,
   ],
   imports: [
     CommonModule,
@@ -43,9 +48,16 @@ import { routes } from './app-routing.module';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    ToastrModule.forRoot(),
     RouterModule.forRoot(routes, { useHash: false, relativeLinkResolution: 'legacy' })
   ],
   providers: [
+    CookieService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpRequestInterceptor,
+      multi: true
+    },
     {
       provide: LocationStrategy,
       useClass: PathLocationStrategy

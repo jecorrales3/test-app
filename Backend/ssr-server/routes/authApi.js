@@ -17,17 +17,18 @@ function authApi(app) {
     passport.authenticate('basic', function (error, data) {
       try {
         if (error || !data) {
-          next(boom.unauthorized());
+          return next(boom.unauthorized());
         }
 
         req.login(data, { session: false }, async function (error) {
           if (error) {
-            next(error);
+            return next(error);
           }
 
           const { token, ...user } = data;
 
           res.cookie('token', token, {
+            sameSite: true,
             httpOnly: !config.dev,
             secure: !config.dev,
           });
@@ -57,6 +58,26 @@ function authApi(app) {
       res.status(201).json({
         message: data.message,
       });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get('/logged', async function (req, res, next) {
+    try {
+      const { token } = req.cookies;
+
+      const { data, status } = await axios({
+        url: `${config.apiUrl}/api/auth/logged`,
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'get',
+      });
+
+      if (status !== 200) {
+        return next(boom.badImplementation());
+      }
+
+      res.status(200).json(data);
     } catch (error) {
       next(error);
     }

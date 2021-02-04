@@ -1,1 +1,118 @@
-<p>users works!</p>
+<section class="hero is-light is-main mt-5">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title has-text-centered">
+        <span class="icon">
+          <i class="mdi mdi-bulma"></i>
+        </span>
+        Users List
+      </h1>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="b-table">
+      <div class="table-wrapper has-mobile-cards">
+        <table class="table is-fullwidth is-striped is-hoverable is-fullwidth">
+          <thead>
+          <tr>
+            <th class="has-text-centered">#</th>
+            <th></th>
+            <th class="has-text-centered">Name</th>
+            <th class="has-text-centered">Email</th>
+            <th class="has-text-centered">Created</th>
+            <th class="has-text-right">Options</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users, index as id">
+              <td class="has-text-centered">
+                {{id+1}}
+              </td>
+              <td class="is-image-cell">
+                <div class="image">
+                  <img src="https://avatars.dicebear.com/v2/initials/{{user.name}}.svg" class="is-rounded">
+                </div>
+              </td>
+              <td class="has-text-centered">
+                {{ user.name }}
+              </td>
+              <td class="has-text-centered">
+                {{ user.email }}
+              </td>
+              <td class="has-text-centered">
+                <small class="has-text-grey is-abbr-like">
+                  {{ moment(user.created).fromNow() }}
+                </small>
+              </td>
+              <td class="is-actions-cell">
+                <div class="buttons is-right">
+                  <button class="button is-small is-primary" type="button" (click)="userDetail(user)">
+                    <span class="icon">
+                      <i class="far fa-eye"></i>
+                    </span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr class="is-empty" *ngIf="loading">
+              <td colspan="7">
+                <section class="section">
+                  <div class="content has-text-grey has-text-centered">
+                    <button class="button is-primary is-loading">Loading</button>
+                  </div>
+                </section>
+              </td>
+            </tr>
+            <tr class="is-empty" *ngIf="message">
+              <td colspan="7">
+                <section class="section">
+                  <div class="content has-text-grey has-text-centered">
+                    <p>
+                      <span class="icon is-large">
+                        <i class="far fa-frown" style="font-size: 2.4em;"></i>
+                      </span>
+                    </p>
+                    <p>Nothing's there&hellip;</p>
+                  </div>
+                </section>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal" [ngClass]="{ 'is-active' : isModalActive }">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box">
+      <article class="media">
+        <div class="media-left">
+          <figure class="image is-64x64">
+            <img src="https://avatars.dicebear.com/v2/initials/{{name}}.svg" alt="Image">
+          </figure>
+        </div>
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <strong>{{ name }} </strong> | <small>{{ email }}</small>
+              <small class="ml-2">
+                {{ moment(created).fromNow() }}
+              </small>
+              <br>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+            </p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+  <button class="modal-close is-large" aria-label="close" (click)="closeModal()"></button>
+</div>
+
+
+

@@ -1,1 +1,107 @@
-<p>sign-up works!</p>
+<div class="columns is-vcentered">
+  <div class="interactive-bg column is-5">
+    <div class="has-text-centered is-align-content-center" style="margin-top: 40%;">
+      <h3 class="title is-1 has-text-white">
+        <strong>Welcome Back!</strong>
+      </h3>
+      <p class="has-text-centered has-text-white mt-5 mb-3 is-size-6">
+        To keep connected with us please
+        <br>
+        login with your personal info
+      </p>
+      <div class="has-text-centered">
+        <a class="button is-medium is-rounded is-outlined button-link" [routerLink]="['/authentication/sign-in']">SIGN IN</a>
+      </div>
+    </div>
+  </div>
+  <div class="column is-7">
+    <section class="section">
+      <div class="has-text-centered">
+        <h2 class="title is-2 has-text-primary">
+          <strong>Create Account</strong>
+        </h2>
+        <!-- Links -->
+        <div class="card-container">
+          <a class="circle-link" title="Facebook" href="https://angular.io/guide/animations" target="_blank" rel="noopener">
+            <i class="fab fa-facebook-f" style="font-size: 1.4em; color: rgb(36, 36, 36);"></i>
+          </a>
+
+          <a class="circle-link" title="Google Plus" href="https://cli.angular.io/" target="_blank" rel="noopener">
+            <i class="fab fa-google-plus-g" style="font-size: 1.4em; color: rgb(36, 36, 36);"></i>
+          </a>
+
+          <a class="circle-link" title="LinkedIn" href="https://augury.rangle.io/" target="_blank" rel="noopener">
+            <i class="fab fa-linkedin-in" style="font-size: 1.4em; color: rgb(36, 36, 36);"></i>
+          </a>
+        </div>
+
+        <p class="has-text-centered has-text-grey mt-5 mb-3">
+          or use your email for registration:
+        </p>
+      </div>
+
+      <div class="container ml-6 mr-6">
+        <form class="ml-6 mr-6" [formGroup]="registerForm" (ngSubmit)="signUp(registerForm.value)">
+          <div class="field">
+            <div class="control has-icons-left has-icons-right">
+              <input class="input" type="text" placeholder="Name" formControlName="name">
+              <span class="icon is-small is-left">
+                <i class="far fa-user"></i>
+              </span>
+            </div>
+            <div class="validation-errors">
+              <ng-container *ngFor="let validation of validation_messages.name">
+                <div
+                  *ngIf="registerForm.get('name').hasError(validation.type) &&
+                  (registerForm.get('name').dirty || registerForm.get('name').touched)">
+                  <p class="help is-danger">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="control has-icons-left has-icons-right">
+              <input class="input" type="text" placeholder="Email" formControlName="email">
+              <span class="icon is-small is-left">
+                <i class="far fa-envelope"></i>
+              </span>
+            </div>
+            <div class="validation-errors">
+              <ng-container *ngFor="let validation of validation_messages.email">
+                <div
+                  *ngIf="registerForm.get('email').hasError(validation.type) &&
+                  (registerForm.get('email').dirty || registerForm.get('email').touched)">
+                  <p class="help is-danger">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="control has-icons-left has-icons-right">
+              <input class="input" type="password" placeholder="Password" formControlName="password">
+              <span class="icon is-small is-left">
+                <i class="fas fa-unlock-alt"></i>
+              </span>
+            </div>
+            <div class="validation-errors">
+              <ng-container *ngFor="let validation of validation_messages.password">
+                <div
+                  *ngIf="registerForm.get('password').hasError(validation.type) &&
+                  (registerForm.get('password').dirty || registerForm.get('password').touched)">
+                  <p class="help is-danger">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="has-text-centered">
+            <button class="button is-primary is-medium is-rounded is-loading" *ngIf="loading">Loading</button>
+            <button class="button is-primary is-medium is-rounded" type="submit" [disabled]="!registerForm.valid" *ngIf="!loading">SIGN UP</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>
